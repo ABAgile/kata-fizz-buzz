@@ -19,7 +19,7 @@ describe FizzBuzz do
   it 'must return Buzz on multiple of 5' do
     assert_equal buzz, FizzBuzz.result(5)
     assert_equal buzz, FizzBuzz.result(10)
-    assert_equal buzz, FizzBuzz.result(15)
+    assert_equal buzz, FizzBuzz.result(20)
   end
 
   it 'must return FizzBuzz on multiple of 15' do
