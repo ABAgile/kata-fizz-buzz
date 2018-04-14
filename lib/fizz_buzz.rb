@@ -13,15 +13,19 @@ class FizzBuzz
   end
 
   def self.result(num)
-    if num % 15 == 0
+    if divisible_by?(num, 15)
       'FizzBuzz'
-    elsif num % 5 == 0
+    elsif divisible_by?(num, 5)
       'Buzz'
-    elsif num % 3 == 0
+    elsif divisible_by?(num, 3)
       'Fizz'
     else
       num
     end
+  end
+
+  def self.divisible_by?(num, divisor)
+    (num % divisor).zero?
   end
 end
 
