@@ -7,11 +7,17 @@
 #
 class FizzBuzz
   def self.output
-    puts result
+    (1..100).each do |i|
+      puts result(i)
+    end
   end
 
-  def self.result
-    (1..100).to_a
+  def self.result(num)
+    if num % 3 == 0
+      'Fizz'
+    else
+      num
+    end
   end
 end
 
