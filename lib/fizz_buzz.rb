@@ -20,33 +20,48 @@
 # what if user need to add another rule like whizz, are we open/close?
 # what if user wanna change the way of output, instead of printing?
 module FizzBuzz
+  # predicate module
   module Predicate
     def self.divisible_by?(divisor)
-      ->(x) { (x % divisor).zero? }
+      ->(num) { (num % divisor).zero? }
     end
 
     def self.with_digit?(digit)
-      ->(x) { x.to_s.include?(digit.to_s) }
+      ->(num) { num.to_s.include?(digit.to_s) }
+    end
+
+    def self.whatever?
+      ->(_) { true }
+    end
+  end
+
+  # responder module
+  module Responder
+    def self.fixed(str)
+      ->(_) { str }
+    end
+
+    def self.echo
+      ->(num) { num }
     end
   end
 
   DEFAULT_RANGE = 1..100
-  DEFAULT_MAP   = {
-    Predicate.with_digit?(3)    => 'Fizz',
-    Predicate.divisible_by?(15) => 'FizzBuzz',
-    Predicate.divisible_by?(7)  => 'Whizz',
-    Predicate.divisible_by?(5)  => 'Buzz',
-    Predicate.divisible_by?(3)  => 'Fizz'
-  }.freeze
+  DEFAULT_TRIGGER = [
+    [Predicate.with_digit?(3),    Responder.fixed('Fizz')],
+    [Predicate.divisible_by?(15), Responder.fixed('FizzBuzz')],
+    [Predicate.divisible_by?(7),  Responder.fixed('Whizz')],
+    [Predicate.divisible_by?(5),  Responder.fixed('Buzz')],
+    [Predicate.divisible_by?(3),  Responder.fixed('Fizz')],
+    [Predicate.whatever?,         Responder.echo]
+  ].freeze
 
-  def self.range(range = DEFAULT_RANGE, map = DEFAULT_MAP)
-    range.map { |num| result(num, map) }
+  def self.range(range = DEFAULT_RANGE, triggers = DEFAULT_TRIGGER)
+    range.map { |num| result(num, triggers) }
   end
 
-  def self.result(num, map = DEFAULT_MAP)
-    entry = map.find { |trigger, _result| trigger.call(num) } || [num, num]
-
-    entry.last
+  def self.result(num, triggers = DEFAULT_TRIGGER)
+    triggers.find { |trigger, _| trigger.call(num) }.last.call(num)
   end
 end
 
