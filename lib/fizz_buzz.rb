@@ -20,12 +20,23 @@
 # what if user need to add another rule like whizz, are we open/close?
 # what if user wanna change the way of output, instead of printing?
 module FizzBuzz
+  module Predicate
+    def self.divisible_by?(divisor)
+      ->(x) { (x % divisor).zero? }
+    end
+
+    def self.with_digit?(digit)
+      ->(x) { x.to_s.include?(digit.to_s) }
+    end
+  end
+
   DEFAULT_RANGE = 1..100
   DEFAULT_MAP   = {
-    15 => 'FizzBuzz',
-    7  => 'Whizz',
-    5  => 'Buzz',
-    3  => 'Fizz'
+    Predicate.with_digit?(3)    => 'Fizz',
+    Predicate.divisible_by?(15) => 'FizzBuzz',
+    Predicate.divisible_by?(7)  => 'Whizz',
+    Predicate.divisible_by?(5)  => 'Buzz',
+    Predicate.divisible_by?(3)  => 'Fizz'
   }.freeze
 
   def self.range(range = DEFAULT_RANGE, map = DEFAULT_MAP)
@@ -33,13 +44,9 @@ module FizzBuzz
   end
 
   def self.result(num, map = DEFAULT_MAP)
-    divisible = map.find { |key, _val| divisible_by?(num, key) } || [num, num]
+    entry = map.find { |trigger, _result| trigger.call(num) } || [num, num]
 
-    divisible.last
-  end
-
-  def self.divisible_by?(num, divisor)
-    (num % divisor).zero?
+    entry.last
   end
 end
 
