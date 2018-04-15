@@ -3,6 +3,7 @@
 # write a program that prints the numbers from 1 to 100
 # for multiples of three print "Fizz" instead of the number
 # for the multiples of five print "Buzz"
+# for the multiples of seven print "Whizz"
 # for numbers which are multiples of both three and five print "FizzBuzz"
 #
 # at the moment we can't predict result(15) is a specific handling, or
@@ -25,6 +26,7 @@ module FizzBuzz
   def self.result(num)
     divisible = {
       15 => 'FizzBuzz',
+      7  => 'Whizz',
       5  => 'Buzz',
       3  => 'Fizz'
     }.find { |key, _val| divisible_by?(num, key) } || [num, num]
