@@ -20,33 +20,78 @@
 # what if user need to add another rule like whizz, are we open/close?
 # what if user wanna change the way of output, instead of printing?
 module FizzBuzz
-  module Predicate
-    def self.divisible_by?(divisor)
-      ->(x) { (x % divisor).zero? }
+  class DefaultHandler
+    def initialize(num)
+      @num = num
     end
 
-    def self.with_digit?(digit)
-      ->(x) { x.to_s.include?(digit.to_s) }
+    def self.trigger?(_num)
+      true
+    end
+
+    def result
+      @num
     end
   end
 
-  DEFAULT_RANGE = 1..100
-  DEFAULT_MAP   = {
-    Predicate.with_digit?(3)    => 'Fizz',
-    Predicate.divisible_by?(15) => 'FizzBuzz',
-    Predicate.divisible_by?(7)  => 'Whizz',
-    Predicate.divisible_by?(5)  => 'Buzz',
-    Predicate.divisible_by?(3)  => 'Fizz'
-  }.freeze
+  class DivisbleByThree < DefaultHandler
+    def self.trigger?(num)
+      (num % 3).zero?
+    end
 
-  def self.range(range = DEFAULT_RANGE, map = DEFAULT_MAP)
-    range.map { |num| result(num, map) }
+    def result
+      'Fizz'
+    end
   end
 
-  def self.result(num, map = DEFAULT_MAP)
-    entry = map.find { |trigger, _result| trigger.call(num) } || [num, num]
+  class WithDigitThree < DivisbleByThree
+    def self.trigger?(num)
+      num.to_s.include?('3')
+    end
+  end
 
-    entry.last
+  class DivisbleByFifteen < DefaultHandler
+    def self.trigger?(num)
+      (num % 15).zero?
+    end
+
+    def result
+      'FizzBuzz'
+    end
+  end
+
+  class DivisbleByFive < DefaultHandler
+    def self.trigger?(num)
+      (num % 5).zero?
+    end
+
+    def result
+      'Buzz'
+    end
+  end
+
+  class DivisbleBySeven < DefaultHandler
+    def self.trigger?(num)
+      (num % 7).zero?
+    end
+
+    def result
+      'Whizz'
+    end
+  end
+
+  DEFAULT_RANGE   = 1..100
+  DEFAULT_TRIGGER = [
+    WithDigitThree, DivisbleByFifteen, DivisbleBySeven,
+    DivisbleByFive, DivisbleByThree, DefaultHandler
+  ].freeze
+
+  def self.range(range = DEFAULT_RANGE, trigger = DEFAULT_TRIGGER)
+    range.map { |num| result(num, trigger) }
+  end
+
+  def self.result(num, trigger = DEFAULT_TRIGGER)
+    trigger.find { |klass| klass.trigger?(num) }.new(num).result
   end
 end
 
