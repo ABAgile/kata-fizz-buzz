@@ -8,6 +8,7 @@ require 'fizz_buzz'
 describe FizzBuzz do
   let(:fizz)     { 'Fizz' }
   let(:buzz)     { 'Buzz' }
+  let(:whizz)    { 'Whizz' }
   let(:fizzbuzz) { fizz + buzz }
 
   it 'must return Fizz on multiple of 3' do
@@ -26,5 +27,11 @@ describe FizzBuzz do
     assert_equal fizzbuzz, FizzBuzz.result(15)
     assert_equal fizzbuzz, FizzBuzz.result(30)
     assert_equal fizzbuzz, FizzBuzz.result(45)
+  end
+
+  it 'must return Whizz on multiple of 7' do
+    assert_equal whizz, FizzBuzz.result(7)
+    assert_equal whizz, FizzBuzz.result(14)
+    assert_equal whizz, FizzBuzz.result(21)
   end
 end
