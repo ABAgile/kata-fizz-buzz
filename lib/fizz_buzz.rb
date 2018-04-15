@@ -16,20 +16,24 @@
 # 3. does our code change at the same rate?
 # 4. does our code depend on something that is more stable?
 #
+# what if user wanna change range of output?
+# what if user need to add another rule like whizz, are we open/close?
+# what if user wanna change the way of output, instead of printing?
 module FizzBuzz
-  def self.output
-    (1..100).each do |num|
-      puts result(num)
-    end
+  DEFAULT_RANGE = 1..100
+  DEFAULT_MAP   = {
+    15 => 'FizzBuzz',
+    7  => 'Whizz',
+    5  => 'Buzz',
+    3  => 'Fizz'
+  }.freeze
+
+  def self.range(range = DEFAULT_RANGE, map = DEFAULT_MAP)
+    range.map { |num| result(num, map) }
   end
 
-  def self.result(num)
-    divisible = {
-      15 => 'FizzBuzz',
-      7  => 'Whizz',
-      5  => 'Buzz',
-      3  => 'Fizz'
-    }.find { |key, _val| divisible_by?(num, key) } || [num, num]
+  def self.result(num, map = DEFAULT_MAP)
+    divisible = map.find { |key, _val| divisible_by?(num, key) } || [num, num]
 
     divisible.last
   end
@@ -40,4 +44,4 @@ module FizzBuzz
 end
 
 # if it is run as command line script, print result
-puts FizzBuzz.output if $PROGRAM_NAME == __FILE__
+puts FizzBuzz.range if $PROGRAM_NAME == __FILE__
