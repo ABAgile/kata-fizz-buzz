@@ -13,15 +13,11 @@ class FizzBuzz
   end
 
   def self.result(num)
-    if divisible_by?(num, 15)
-      'FizzBuzz'
-    elsif divisible_by?(num, 5)
-      'Buzz'
-    elsif divisible_by?(num, 3)
-      'Fizz'
-    else
-      num
-    end
+    {
+      15 => 'FizzBuzz',
+      5  => 'Buzz',
+      3  => 'Fizz'
+    }.find { |key, _val| divisible_by?(num, key) }&.last || num
   end
 
   def self.divisible_by?(num, divisor)
