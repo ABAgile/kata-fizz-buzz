@@ -25,8 +25,8 @@ describe FizzBuzz do
 
   it 'must return FizzBuzz on multiple of 15' do
     assert_equal fizzbuzz, FizzBuzz.result(15)
-    assert_equal fizzbuzz, FizzBuzz.result(30)
     assert_equal fizzbuzz, FizzBuzz.result(45)
+    assert_equal fizzbuzz, FizzBuzz.result(60)
   end
 
   it 'must return Whizz on multiple of 7' do
@@ -39,5 +39,6 @@ describe FizzBuzz do
     assert_equal fizz, FizzBuzz.result(3)
     assert_equal fizz, FizzBuzz.result(13)
     assert_equal fizz, FizzBuzz.result(23)
+    assert_equal fizz, FizzBuzz.result(30)
   end
 end
