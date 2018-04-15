@@ -5,19 +5,31 @@
 # for the multiples of five print "Buzz"
 # for numbers which are multiples of both three and five print "FizzBuzz"
 #
-class FizzBuzz
+# at the moment we can't predict result(15) is a specific handling, or
+# it implies combining result of result(3) & result(5), and that will
+# lead to quite different direction of how our structure
+#
+# let's examine solid principle
+# 1. is it DRY?
+# 2. is it single responbility?
+# 3. does our code change at the same rate?
+# 4. does our code depend on something that is more stable?
+#
+module FizzBuzz
   def self.output
-    (1..100).each do |i|
-      puts result(i)
+    (1..100).each do |num|
+      puts result(num)
     end
   end
 
   def self.result(num)
-    {
+    divisible = {
       15 => 'FizzBuzz',
       5  => 'Buzz',
       3  => 'Fizz'
-    }.find { |key, _val| divisible_by?(num, key) }&.last || num
+    }.find { |key, _val| divisible_by?(num, key) } || [num, num]
+
+    divisible.last
   end
 
   def self.divisible_by?(num, divisor)
