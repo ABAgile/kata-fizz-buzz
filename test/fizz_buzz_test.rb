@@ -34,4 +34,10 @@ describe FizzBuzz do
     assert_equal whizz, FizzBuzz.result(14)
     assert_equal whizz, FizzBuzz.result(21)
   end
+
+  it 'must return Fizz on numbers containing digit of 3' do
+    assert_equal fizz, FizzBuzz.result(3)
+    assert_equal fizz, FizzBuzz.result(13)
+    assert_equal fizz, FizzBuzz.result(23)
+  end
 end
