@@ -20,12 +20,6 @@
 # what if user need to add another rule like whizz, are we open/close?
 # what if user wanna change the way of output, instead of printing?
 module FizzBuzz
-  Until = Struct.new(:value, :result) do
-    def and_then
-      Until.new(value, result || yield(value))
-    end
-  end
-
   DEFAULT_RANGE = 1..100
   DEFAULT_TRIGGER = [
     ->(num) { 'Fizz'     if num.to_s.include?('3') },
@@ -41,7 +35,7 @@ module FizzBuzz
   end
 
   def self.result(num, triggers = DEFAULT_TRIGGER)
-    triggers.reduce(Until.new(num, nil)) { |memo, trigger| memo.and_then(&trigger) }.result
+    triggers.reduce(nil) { |memo, trigger| memo || trigger.call(num) }
   end
 end
 
